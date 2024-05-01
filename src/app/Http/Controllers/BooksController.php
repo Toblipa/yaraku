@@ -3,39 +3,35 @@
 namespace App\Http\Controllers;
 
 use App\Book;
+use App\Http\Requests\StoreBookRequest;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
-class BookController extends Controller
+class BooksController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): View
     {
-        // TODO
+        $books = Book::paginate(5);
+        return view('books/index', compact( 'books'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     *  Store a newly created resource in storage.
      *
-     * @return \Illuminate\Http\Response
+     * @param StoreBookRequest $request
+     * @return RedirectResponse
      */
-    public function create()
+    public function store(StoreBookRequest $request): RedirectResponse
     {
-        // TODO
-    }
+        Book::create($request->all());
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        // TODO
+        return redirect('/books');
     }
 
     /**

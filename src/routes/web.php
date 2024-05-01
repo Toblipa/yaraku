@@ -11,6 +11,11 @@
 |
 */
 
+use App\Http\Controllers\BooksController;
+
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('books');
 });
+
+Route::get('/books', [BooksController::class, 'index']);
+Route::post('/books', [BooksController::class, 'store']);

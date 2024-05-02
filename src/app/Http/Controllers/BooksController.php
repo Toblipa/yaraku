@@ -15,10 +15,21 @@ class BooksController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(): View
+    public function index(Request $request): View
     {
-        $books = Book::paginate(5);
-        return view('books/index', compact( 'books'));
+        $sortBy = $request->input('sortBy', 'title');
+        $sort = $request->input('sort', 'desc');
+
+        $books = Book::orderBy(
+            $sortBy,
+            $sort
+        )->paginate(5);
+
+        // Append sorting query to pagination links
+        $books->appends(['sortBy' => $sortBy]);
+        $books->appends(['sort' => $sort]);
+
+        return view('books.index', ['books' => $books]);
     }
 
     /**

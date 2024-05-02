@@ -14,7 +14,7 @@
 use App\Http\Controllers\BooksController;
 
 Route::get('/', function () {
-    return redirect()->route('books');
+    return redirect()->action([BooksController::class, 'index']);
 });
 
 Route::get('/books', [BooksController::class, 'index']);

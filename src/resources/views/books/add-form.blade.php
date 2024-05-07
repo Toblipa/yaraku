@@ -21,7 +21,10 @@
                     @enderror
                 </div>
             </div>
-            <button type="submit" class="mt-1 btn btn-primary">Add Book</button>
+            <button type="submit" class="mt-1 btn btn-primary">
+                @svg('solid/plus')
+                <div class="d-inline">Add Book</div>
+            </button>
         </form>
     </div>
 </div>

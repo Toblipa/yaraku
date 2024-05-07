@@ -7,17 +7,17 @@
                 <th scope="col">
                     Title
                     @if( request()->get('sortBy') === "title" && request()->get('sort') ==="desc" )
-                        <a href="?sortBy=title&sort=asc">sort a</a>
+                        <a href="?sortBy=title&sort=asc">@svg('solid/sort-up')</a>
                     @else
-                        <a href="?sortBy=title&sort=desc">sort d</a>
+                        <a href="?sortBy=title&sort=desc">@svg('solid/sort-down')</a>
                     @endif
                 </th>
                 <th scope="col">
                     Author
                     @if( request()->get('sortBy') === "author" && request()->get('sort') ==="desc" )
-                        <a href="?sortBy=author&sort=asc">sort a</a>
+                        <a href="?sortBy=author&sort=asc">@svg('solid/sort-up')</a>
                     @else
-                        <a href="?sortBy=author&sort=desc">sort d</a>
+                        <a href="?sortBy=author&sort=desc">@svg('solid/sort-down')</a>
                     @endif
                 </th>
                 <th scope="col"></th>
@@ -33,7 +33,9 @@
             <tr scope="row">
                 <td>{{ $book->title }}</td>
                 <td>{{ $book->author }}</td>
-                <td class="text-danger">Delete</td>
+                <td class="d-flex justify-content-center">
+                    <button type="button" class="btn btn-danger">@svg('solid/trash-can')</button>
+                </td>
             </tr>
         @endforeach
         </tbody>

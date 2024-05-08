@@ -1,5 +1,7 @@
 <?php
 
+use BladeSvg\BladeSvgServiceProvider;
+
 return [
 
     /*
@@ -165,6 +167,7 @@ return [
         /*
          * Package Service Providers...
          */
+        BladeSvgServiceProvider::class,
 
         /*
          * Application Service Providers...

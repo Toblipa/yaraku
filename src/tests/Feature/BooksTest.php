@@ -17,4 +17,20 @@ class BooksTest extends TestCase
 
         $response->assertStatus(200);
     }
+
+    public function testCanAddBook()
+    {
+        // Arrange
+        $book = [
+            'title' => 'This is a title',
+            'author' => 'A Great Author',
+        ];
+
+        // Act
+        $response = $this->post('/books/add', $book);
+
+        // Assert
+        $this->assertDatabaseHas('books', $book);
+        $response->assertRedirect('/books');
+    }
 }

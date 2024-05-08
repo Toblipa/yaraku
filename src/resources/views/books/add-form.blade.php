@@ -1,7 +1,13 @@
 <div>
     <h1>Add New Book</h1>
     <div class="col-md-8 order-md-1 mt-3">
-        <form method="post" action="{{url('books')}}">
+        @if(Session::has('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Success!</strong> {{ Session::get('message', '') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+        <form method="post" action="{{ route('books.add') }}">
             @csrf <!-- {{ csrf_field() }} -->
             <div class="form-group row mb-2">
                 <label for="inputTitle" class="col-sm-2 col-form-label">Title</label>

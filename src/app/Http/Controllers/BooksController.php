@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Book;
 use App\BookSearch\BookSearch;
 use App\Http\Requests\StoreBookRequest;
+use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -35,7 +36,7 @@ class BooksController extends Controller
     {
         Book::create($request->all());
 
-        return redirect('/books');
+        return redirect('/books')->with('success', true)->with('message','Book added successfully.');
     }
 
     /**
@@ -78,8 +79,22 @@ class BooksController extends Controller
      * @param  \App\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Book $book)
+    public function destroy(Book $book): RedirectResponse
     {
-        // TODO
+        try {
+            $book->delete();
+        } catch (Exception $e){
+            $message = $e->getMessage();
+            return redirect('/books')
+                ->with('error', $message);
+        }
+
+        return redirect('/books')
+            ->with('deleted', true)
+            ->with('message', sprintf(
+                '"%s" by "%s" has been deleted successfully.',
+                $book->title,
+                $book->author
+            ));
     }
 }

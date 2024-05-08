@@ -12,10 +12,12 @@
 */
 
 use App\Http\Controllers\BooksController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return redirect()->action([BooksController::class, 'index']);
 });
 
-Route::get('/books', [BooksController::class, 'index']);
-Route::post('/books', [BooksController::class, 'store']);
+Route::get('/books', [BooksController::class, 'index'])->name('books.index');
+Route::post('/books/add', [BooksController::class, 'store'])->name('books.add');
+Route::delete('/books/delete/{book}', [BooksController::class, 'destroy'])->name('books.delete');

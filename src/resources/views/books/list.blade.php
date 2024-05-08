@@ -1,7 +1,8 @@
 <div>
     <h1>Books List</h1>
-
+    <!-- Books Table -->
     <table class="table table-hover">
+        <!-- Table columns with sort -->
         <thead>
             <tr>
                 <th scope="col">
@@ -31,6 +32,7 @@
                 <th scope="col"></th>
             </tr>
         </thead>
+        <!-- Rows with books information -->
         <tbody>
         @if ($books->count() == 0)
             <tr>
@@ -42,7 +44,17 @@
                 <td>{{ $book->title }}</td>
                 <td>{{ $book->author }}</td>
                 <td class="d-flex justify-content-center">
-                    <button type="button" class="btn btn-danger">@svg('solid/trash-can')</button>
+                    <form action="{{ route('books.delete', $book) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button
+                            type="submit"
+                            class="btn btn-danger"
+                            onclick="return confirm('{{ sprintf('Are you sure you want to delete %s by %s?', $book->title, $book->author) }}')"
+                        >
+                            @svg('solid/trash-can')
+                        </button>
+                    </form>
                 </td>
             </tr>
         @endforeach
@@ -52,4 +64,12 @@
     <div>
         {{ $books->appends(request()->all())->links("pagination::bootstrap-4") }}
     </div>
+    <!-- Deletion Alert -->
+    @if(Session::has('deleted'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Book deleted.</strong>
+            <span>{{ Session::get('message', '') }}</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
 </div>

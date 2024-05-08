@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Book;
+use App\BookSearch\BookSearch;
 use App\Http\Requests\StoreBookRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -17,22 +18,14 @@ class BooksController extends Controller
      */
     public function index(Request $request): View
     {
-        $sortBy = $request->input('sortBy', 'title');
-        $sort = $request->input('sort', 'desc');
-
-        $books = Book::orderBy(
-            $sortBy,
-            $sort
-        )->paginate(5);
-
-        // Append sorting query to pagination links
-        $books->appends(['sortBy' => $sortBy]);
-        $books->appends(['sort' => $sort]);
+        $books = BookSearch::apply($request);
 
         return view('books.index', ['books' => $books]);
     }
 
     /**
+     * TODO: Test
+     *
      *  Store a newly created resource in storage.
      *
      * @param StoreBookRequest $request

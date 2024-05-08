@@ -23,7 +23,7 @@
             </div>
             <button type="submit" class="mt-1 btn btn-primary">
                 @svg('solid/plus')
-                <div class="d-inline">Add Book</div>
+                <span class="d-inline">Add Book</span>
             </button>
         </form>
     </div>

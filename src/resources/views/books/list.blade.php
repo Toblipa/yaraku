@@ -6,18 +6,26 @@
             <tr>
                 <th scope="col">
                     Title
-                    @if( request()->get('sortBy') === "title" && request()->get('sort') ==="desc" )
-                        <a href="?sortBy=title&sort=asc">@svg('solid/sort-up')</a>
+                    @if( request()->has('sort_title') && request()->get('sort_title') === "asc" )
+                        <a href="{{request()->fullUrlWithQuery(['sort_title' => 'desc', 'sort_author' => null])}}">
+                            @svg('solid/sort-up')
+                        </a>
                     @else
-                        <a href="?sortBy=title&sort=desc">@svg('solid/sort-down')</a>
+                        <a href="{{request()->fullUrlWithQuery(['sort_title' => 'asc', 'sort_author' => null])}}">
+                            @svg('solid/sort-down')
+                        </a>
                     @endif
                 </th>
                 <th scope="col">
                     Author
-                    @if( request()->get('sortBy') === "author" && request()->get('sort') ==="desc" )
-                        <a href="?sortBy=author&sort=asc">@svg('solid/sort-up')</a>
+                    @if( request()->has('sort_author') && request()->get('sort_author') === "asc" )
+                        <a href="{{request()->fullUrlWithQuery(['sort_author' => 'desc', 'sort_title' => null])}}">
+                            @svg('solid/sort-up')
+                        </a>
                     @else
-                        <a href="?sortBy=author&sort=desc">@svg('solid/sort-down')</a>
+                        <a href="{{request()->fullUrlWithQuery(['sort_author' => 'asc', 'sort_title' => null])}}">
+                            @svg('solid/sort-down')
+                        </a>
                     @endif
                 </th>
                 <th scope="col"></th>
@@ -30,7 +38,7 @@
             </tr>
         @endif
         @foreach($books as $book)
-            <tr scope="row">
+            <tr>
                 <td>{{ $book->title }}</td>
                 <td>{{ $book->author }}</td>
                 <td class="d-flex justify-content-center">
@@ -42,6 +50,6 @@
     </table>
     <!-- Pagination Links -->
     <div>
-        {{ $books->links("pagination::bootstrap-4") }}
+        {{ $books->appends(request()->all())->links("pagination::bootstrap-4") }}
     </div>
 </div>

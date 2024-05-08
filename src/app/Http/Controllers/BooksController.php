@@ -25,8 +25,6 @@ class BooksController extends Controller
     }
 
     /**
-     * TODO: Test
-     *
      *  Store a newly created resource in storage.
      *
      * @param StoreBookRequest $request

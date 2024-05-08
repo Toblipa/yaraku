@@ -33,4 +33,19 @@ class BooksTest extends TestCase
         $this->assertDatabaseHas('books', $book);
         $response->assertRedirect('/books');
     }
+
+    public function testAddBookWithoutAuthorAndFail()
+    {
+        // Arrange
+        $book = [
+            'title' => 'This is a title',
+        ];
+
+        // Act
+        $response = $this->post('/books/add', $book);
+
+        // Assert
+        $this->assertDatabaseMissing('books', $book);
+        $response->assertSessionHasErrors(['author']);
+    }
 }

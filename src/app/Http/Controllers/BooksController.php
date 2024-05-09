@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Book;
 use App\BookSearch\BookSearch;
+use App\Http\Requests\EditBookRequest;
 use App\Http\Requests\StoreBookRequest;
 use Exception;
 use Illuminate\Http\RedirectResponse;
@@ -62,13 +63,15 @@ class BooksController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  EditBookRequest  $request
      * @param  \App\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Book $book)
+    public function update(EditBookRequest $request, Book $book): RedirectResponse
     {
-        // TODO
+        $book->update($request->all());
+
+        return redirect('/books')->with('success', true)->with('message','Book updated.');
     }
 
     /**

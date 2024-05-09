@@ -78,12 +78,18 @@
             </tr>
         @endif
         @foreach($books as $book)
-            <tr>
+            <tr class="align-middle">
                 <td>{{ $book->title }}</td>
-                <td>{{ $book->author }}</td>
-                <td class="d-flex justify-content-center">
-                    <form action="{{ route('books.delete', $book) }}" method="POST">
-                        @csrf
+                <td>
+                    {{ $book->author }}
+                    <button type="button" class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#editModal"
+                            data-bs-id="{{$book->id}}" data-bs-author="{{$book->author}}" data-bs-title="{{$book->title}}">
+                        @svg('solid/pen-to-square')
+                    </button>
+                </td>
+                <td class="d-flex justify-content-center align-items-center">
+                    <form class="m-0" action="{{ route('books.delete', $book) }}" method="POST">
+                        @csrf  <!-- {{ csrf_field() }} -->
                         @method('DELETE')
                         <button
                             type="submit"
@@ -103,6 +109,7 @@
     <div>
         {{ $books->appends(request()->all())->links("pagination::bootstrap-4") }}
     </div>
+
     <!-- Deletion Alert -->
     @if(Session::has('deleted'))
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -111,4 +118,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
+
+    <!-- Edit Modal -->
+    @include('books/edit-modal')
 </div>

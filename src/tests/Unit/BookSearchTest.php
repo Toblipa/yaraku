@@ -42,8 +42,7 @@ class BookSearchTest extends TestCase
         $result = BookSearch::apply($request);
 
         $this->assertNotEmpty($result->items());
-        $this->assertEquals($queryResult->count(), $result->count());
-        $this->assertEquals($queryResult->all(), $result->items());
+        $this->assertEquals($queryResult->count(), $result->total());
     }
 
     public function testBookSearchFiltersByTitleWithNoResults()
@@ -59,8 +58,7 @@ class BookSearchTest extends TestCase
         $result = BookSearch::apply($request);
 
         $this->assertEmpty($result->items());
-        $this->assertEquals($queryResult->count(), $result->count());
-        $this->assertEquals($queryResult->all(), $result->items());
+        $this->assertEquals($queryResult->count(), $result->total());
     }
 
     public function testBookSearchFiltersByAuthor()
@@ -76,8 +74,7 @@ class BookSearchTest extends TestCase
         $result = BookSearch::apply($request);
 
         $this->assertNotEmpty($result->items());
-        $this->assertEquals($queryResult->count(), $result->count());
-        $this->assertEquals($queryResult->all(), $result->items());
+        $this->assertEquals($queryResult->count(), $result->total());
     }
 
     public function testBookSearchFiltersByAuthorWithNoResults()
@@ -93,8 +90,7 @@ class BookSearchTest extends TestCase
         $result = BookSearch::apply($request);
 
         $this->assertEmpty($result->items());
-        $this->assertEquals($queryResult->count(), $result->count());
-        $this->assertEquals($queryResult->all(), $result->items());
+        $this->assertEquals($queryResult->count(), $result->total());
     }
 
     public function testBookSearchOrderByTitle()

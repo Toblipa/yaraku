@@ -18,14 +18,14 @@ class BookSearchTest extends TestCase
     public function testBookSearchCanBeCalled()
     {
         $request = new Request();
-        BookSearch::apply($request);
+        BookSearch::getResults($request);
         $this->assertTrue(true);
     }
 
     public function testBookSearchReturnsPaginatorObject()
     {
         $request = new Request();
-        $result = BookSearch::apply($request);
+        $result = BookSearch::getResults($request);
         $this->assertInstanceOf(LengthAwarePaginator::class, $result);
     }
 
@@ -39,7 +39,7 @@ class BookSearchTest extends TestCase
         // Apply filters through BookSearch class
         $request = new Request();
         $request->replace(['title' => 'title']);
-        $result = BookSearch::apply($request);
+        $result = BookSearch::getResults($request);
 
         $this->assertNotEmpty($result->items());
         $this->assertEquals($queryResult->count(), $result->total());
@@ -55,7 +55,7 @@ class BookSearchTest extends TestCase
         // Apply filters through BookSearch class
         $request = new Request();
         $request->replace(['title' => 'verylongstringwithnomeaning']);
-        $result = BookSearch::apply($request);
+        $result = BookSearch::getResults($request);
 
         $this->assertEmpty($result->items());
         $this->assertEquals($queryResult->count(), $result->total());
@@ -71,7 +71,7 @@ class BookSearchTest extends TestCase
         // Apply filters through BookSearch class
         $request = new Request();
         $request->replace(['author' => 'author']);
-        $result = BookSearch::apply($request);
+        $result = BookSearch::getResults($request);
 
         $this->assertNotEmpty($result->items());
         $this->assertEquals($queryResult->count(), $result->total());
@@ -87,7 +87,7 @@ class BookSearchTest extends TestCase
         // Apply filters through BookSearch class
         $request = new Request();
         $request->replace(['author' => 'verylongstringwithnomeaning']);
-        $result = BookSearch::apply($request);
+        $result = BookSearch::getResults($request);
 
         $this->assertEmpty($result->items());
         $this->assertEquals($queryResult->count(), $result->total());
@@ -103,7 +103,7 @@ class BookSearchTest extends TestCase
         // Apply filters through BookSearch class
         $request = new Request();
         $request->replace(['sort_title' => 'asc']);
-        $result = BookSearch::apply($request);
+        $result = BookSearch::getResults($request);
 
         $this->assertEquals($firstItem, $result->first());
     }
@@ -118,7 +118,7 @@ class BookSearchTest extends TestCase
         // Apply filters through BookSearch class
         $request = new Request();
         $request->replace(['sort_author' => 'asc']);
-        $result = BookSearch::apply($request);
+        $result = BookSearch::getResults($request);
 
         $this->assertEquals($firstItem, $result->first());
     }

@@ -75,4 +75,11 @@ class BooksTest extends TestCase
         $this->assertEquals("New Author", $edited_book->author);
         $response->assertRedirect(route('books.index'));
     }
+
+    public function testBooksExportXml()
+    {
+        $response = $this->get(route('books.export.xml',  ['title' => 'dolor']));
+
+        $response->assertStatus(200);
+    }
 }

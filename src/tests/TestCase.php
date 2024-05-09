@@ -2,10 +2,10 @@
 
 namespace Tests;
 
-use App\Book;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -17,7 +17,10 @@ abstract class TestCase extends BaseTestCase
 
         Artisan::call('migrate');
         Artisan::call('db:seed --class=BooksTableSeeder');
-        $this->seed(\BooksTableSeeder::class);
+        DB::table('books')->insert([
+            'title' => 'This is a title',
+            'author' => 'Great Author',
+        ]);
     }
 
     public function tearDown(): void

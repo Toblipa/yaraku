@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
+use Illuminate\Support\Facades\DB;
 
 class BooksTableSeeder extends Seeder
 {
@@ -14,12 +15,9 @@ class BooksTableSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        DB::table('books')->insert([
-            'title' => 'This is a title',
-            'author' => 'Great Author',
-        ]);
+        $limit = env('SEEDER_LIMIT', 17);
 
-        foreach (range(1, 17) as $index) {
+        foreach (range(1, $limit) as $index) {
             DB::table('books')->insert([
                 'title' => $faker->sentence,
                 'author' => $faker->name,

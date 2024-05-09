@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Book;
 use Tests\TestCase;
 
 class BooksTest extends TestCase
@@ -20,32 +21,43 @@ class BooksTest extends TestCase
 
     public function testCanAddBook()
     {
-        // Arrange
         $book = [
-            'title' => 'This is a title',
-            'author' => 'A Great Author',
+            'title' => 'My test book',
+            'author' => 'Great Name',
         ];
 
-        // Act
         $response = $this->post('/books/add', $book);
 
-        // Assert
         $this->assertDatabaseHas('books', $book);
         $response->assertRedirect('/books');
     }
 
     public function testAddBookWithoutAuthorAndFail()
     {
-        // Arrange
         $book = [
-            'title' => 'This is a title',
+            'title' => 'My test book',
         ];
 
-        // Act
         $response = $this->post('/books/add', $book);
 
-        // Assert
         $this->assertDatabaseMissing('books', $book);
         $response->assertSessionHasErrors(['author']);
+    }
+
+    public function testDeleteBook()
+    {
+        $book = Book::whereId(1)->first();
+
+        $response = $this->delete('/books/delete/' . $book->id);
+
+        $this->assertDatabaseMissing('books', $book->toArray());
+        $response->assertRedirect('/books');
+    }
+
+    public function testDeleteNonExistentBookAndFail()
+    {
+        $response = $this->delete('/books/delete/45');
+
+        $response->assertNotFound();
     }
 }

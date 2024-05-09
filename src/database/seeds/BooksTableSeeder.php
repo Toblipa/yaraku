@@ -13,6 +13,12 @@ class BooksTableSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create();
+
+        DB::table('books')->insert([
+            'title' => 'This is a title',
+            'author' => 'Great Author',
+        ]);
+
         foreach (range(1, 17) as $index) {
             DB::table('books')->insert([
                 'title' => $faker->sentence,

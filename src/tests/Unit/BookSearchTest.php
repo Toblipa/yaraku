@@ -15,19 +15,22 @@ class BookSearchTest extends TestCase
      *
      * @return void
      */
-    public function testBookSearchCanBeCalled() {
+    public function testBookSearchCanBeCalled()
+    {
         $request = new Request();
         BookSearch::apply($request);
         $this->assertTrue(true);
     }
 
-    public function testBookSearchReturnsPaginatorObject() {
+    public function testBookSearchReturnsPaginatorObject()
+    {
         $request = new Request();
         $result = BookSearch::apply($request);
         $this->assertInstanceOf(LengthAwarePaginator::class, $result);
     }
 
-    public function testBookSearchFiltersByTitle(){
+    public function testBookSearchFiltersByTitle()
+    {
         // Expected Eloquent query
         $query = Book::query();
         $query->where('title', 'LIKE', "%title%");
@@ -38,12 +41,64 @@ class BookSearchTest extends TestCase
         $request->replace(['title' => 'title']);
         $result = BookSearch::apply($request);
 
-        $this->assertIsArray($result->items());
+        $this->assertNotEmpty($result->items());
         $this->assertEquals($queryResult->count(), $result->count());
         $this->assertEquals($queryResult->all(), $result->items());
     }
 
-    public function testBookSearchOrderByTitle(){
+    public function testBookSearchFiltersByTitleWithNoResults()
+    {
+        // Expected Eloquent query
+        $query = Book::query();
+        $query->where('title', 'LIKE', "%verylongstringwithnomeaning%");
+        $queryResult = $query->get();
+
+        // Apply filters through BookSearch class
+        $request = new Request();
+        $request->replace(['title' => 'verylongstringwithnomeaning']);
+        $result = BookSearch::apply($request);
+
+        $this->assertEmpty($result->items());
+        $this->assertEquals($queryResult->count(), $result->count());
+        $this->assertEquals($queryResult->all(), $result->items());
+    }
+
+    public function testBookSearchFiltersByAuthor()
+    {
+        // Expected Eloquent query
+        $query = Book::query();
+        $query->where('author', 'LIKE', "%author%");
+        $queryResult = $query->get();
+
+        // Apply filters through BookSearch class
+        $request = new Request();
+        $request->replace(['author' => 'author']);
+        $result = BookSearch::apply($request);
+
+        $this->assertNotEmpty($result->items());
+        $this->assertEquals($queryResult->count(), $result->count());
+        $this->assertEquals($queryResult->all(), $result->items());
+    }
+
+    public function testBookSearchFiltersByAuthorWithNoResults()
+    {
+        // Expected Eloquent query
+        $query = Book::query();
+        $query->where('author', 'LIKE', "%verylongstringwithnomeaning%");
+        $queryResult = $query->get();
+
+        // Apply filters through BookSearch class
+        $request = new Request();
+        $request->replace(['author' => 'verylongstringwithnomeaning']);
+        $result = BookSearch::apply($request);
+
+        $this->assertEmpty($result->items());
+        $this->assertEquals($queryResult->count(), $result->count());
+        $this->assertEquals($queryResult->all(), $result->items());
+    }
+
+    public function testBookSearchOrderByTitle()
+    {
         // Expected Eloquent query
         $query = Book::query();
         $query->orderBy('title', 'asc');
@@ -54,11 +109,11 @@ class BookSearchTest extends TestCase
         $request->replace(['sort_title' => 'asc']);
         $result = BookSearch::apply($request);
 
-        $this->assertIsArray($result->items());
         $this->assertEquals($firstItem, $result->first());
     }
 
-    public function testBookSearchOrderByAuthor(){
+    public function testBookSearchOrderByAuthor()
+    {
         // Expected Eloquent query
         $query = Book::query();
         $query->orderBy('author', 'asc');
@@ -69,7 +124,6 @@ class BookSearchTest extends TestCase
         $request->replace(['sort_author' => 'asc']);
         $result = BookSearch::apply($request);
 
-        $this->assertIsArray($result->items());
         $this->assertEquals($firstItem, $result->first());
     }
 

@@ -1,5 +1,7 @@
 <?php
+
 namespace App\BookSearch;
+
 use App\Book;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -19,7 +21,7 @@ class BookSearch
         return self::getResults($query);
     }
 
-    private static function applyDecoratorsFromRequest(Request $request, Builder $query): Builder
+    private static function applyDecoratorsFromRequest(Request $request, Builder $query): void
     {
         foreach ($request->all() as $filterName => $value) {
             $decorator = static::createFilterDecorator($filterName);
@@ -28,7 +30,6 @@ class BookSearch
                 $query = $decorator::apply($query, $value);
             }
         }
-        return $query;
     }
 
     private static function createFilterDecorator($name): string

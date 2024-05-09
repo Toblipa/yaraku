@@ -87,7 +87,7 @@
                         @svg('solid/pen-to-square')
                     </button>
                 </td>
-                <td class="d-flex justify-content-center align-items-center">
+                <td class="text-center align-items-center">
                     <form class="m-0" action="{{ route('books.delete', $book) }}" method="POST">
                         @csrf  <!-- {{ csrf_field() }} -->
                         @method('DELETE')

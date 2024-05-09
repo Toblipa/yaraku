@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Book;
 use App\BookSearch\BookSearch;
+use App\Converters\CsvConverter;
+use App\Converters\XmlConverter;
 use App\Http\Requests\EditBookRequest;
 use App\Http\Requests\StoreBookRequest;
 use Exception;
@@ -20,7 +22,7 @@ class BooksController extends Controller
      */
     public function index(Request $request): View
     {
-        $books = BookSearch::apply($request);
+        $books = BookSearch::getResults($request);
 
         return view('books.index', ['books' => $books]);
     }
@@ -97,5 +99,33 @@ class BooksController extends Controller
                 $book->title,
                 $book->author
             ));
+    }
+
+    public function export(Request $request, string $type) {
+        switch ($type) {
+            case "csv":
+                $converterClass = CsvConverter::class;
+                break;
+            case "xml":
+                $converterClass = XmlConverter::class;
+                break;
+            default:
+                return redirect('/books')
+                    ->with('error', 'Export type not supported');
+        }
+
+        $books = BookSearch::getAllResults($request)->all();
+
+        try {
+            $result = $request->has('columns') ?
+                $converterClass::convert($books, $request->get('columns')) : $converterClass::convert($books);
+
+        } catch (Exception $e) {
+            $message = $e->getMessage();
+            return redirect('/books')
+                ->with('error', $message);
+        }
+
+        return response($result, 200, $converterClass::headers());
     }
 }

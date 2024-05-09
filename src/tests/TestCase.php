@@ -17,6 +17,7 @@ abstract class TestCase extends BaseTestCase
 
         Artisan::call('migrate');
         Artisan::call('db:seed --class=BooksTableSeeder');
+
         DB::table('books')->insert([
             'title' => 'This is a title',
             'author' => 'Great Author',

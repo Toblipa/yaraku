@@ -22,3 +22,4 @@ Route::get('/books', [BooksController::class, 'index'])->name('books.index');
 Route::post('/books/add', [BooksController::class, 'store'])->name('books.add');
 Route::delete('/books/delete/{book}', [BooksController::class, 'destroy'])->name('books.delete');
 Route::put('/books/edit/{book}', [BooksController::class, 'update'])->name('books.edit');
+Route::get('/books/export/{type}', [BooksController::class, 'export'])->name('books.export');

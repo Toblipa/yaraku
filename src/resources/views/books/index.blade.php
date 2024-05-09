@@ -16,4 +16,14 @@
     <div class='container bg-white p-4'>
         @include('books.list')
     </div>
+    <!-- Error -->
+    @if(Session::has('error'))
+        <div class='container bg-white p-4'>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error.</strong>
+                <span>{{ Session::get('error', '') }}</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+    @endif
 @endsection

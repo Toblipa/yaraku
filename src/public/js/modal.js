@@ -18,3 +18,20 @@ if (editModal) {
         modalBodyInput.value = author
     })
 }
+
+const exportModal = document.getElementById('exportModal')
+if (exportModal) {
+    exportModal.addEventListener('show.bs.modal', event => {
+        // Button that triggered the modal
+        const button = event.relatedTarget
+        // Extract info from data-bs-* attributes
+        const export_type = button.getAttribute('data-bs-export')
+
+        // Update the modal's content.
+        const modalForm = exportModal.querySelector('.modal-form')
+        const modalTitle = exportModal.querySelector('.modal-title')
+
+        modalForm.action = modalForm.action.replace(":type", export_type)
+        modalTitle.textContent = `Export to ${export_type.toUpperCase()}`
+    })
+}

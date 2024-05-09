@@ -12,7 +12,8 @@
         "fideloper/proxy": "^4.0",
         "laravel/framework": "^6.0",
         "laravel/tinker": "^1.0",
-        "blade-ui-kit/blade-icons": "v0.3.4"
+        "blade-ui-kit/blade-icons": "v0.3.4",
+        "ext-simplexml": "*"
     },
     "require-dev": {
         "filp/whoops": "^2.0",

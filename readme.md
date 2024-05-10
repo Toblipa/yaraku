@@ -1,7 +1,8 @@
 ## Requirements
-- [Docker](https://docs.docker.com/install)
+- [Docker](https://docs.docker.com/get-docker)
 - [Docker Compose](https://docs.docker.com/compose/install)
 
+Note: To run docker compose commands as a non-root user, please see [Linux Post-Installation Steps](https://docs.docker.com/engine/install/linux-postinstall/)
 ## Setup
 1. Clone the repository.
 2. Start the containers by running `docker compose up -d` in the project root.

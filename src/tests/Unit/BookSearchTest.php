@@ -33,12 +33,12 @@ class BookSearchTest extends TestCase
     {
         // Expected Eloquent query
         $query = Book::query();
-        $query->where('title', 'LIKE', "%title%");
+        $query->where('title', 'LIKE', "%dolor%");
         $queryResult = $query->get();
 
         // Apply filters through BookSearch class
         $request = new Request();
-        $request->replace(['title' => 'title']);
+        $request->replace(['title' => 'dolor']);
         $result = BookSearch::getResults($request);
 
         $this->assertNotEmpty($result->items());
@@ -65,12 +65,12 @@ class BookSearchTest extends TestCase
     {
         // Expected Eloquent query
         $query = Book::query();
-        $query->where('author', 'LIKE', "%author%");
+        $query->where('author', 'LIKE', "%dr%");
         $queryResult = $query->get();
 
         // Apply filters through BookSearch class
         $request = new Request();
-        $request->replace(['author' => 'author']);
+        $request->replace(['author' => 'dr']);
         $result = BookSearch::getResults($request);
 
         $this->assertNotEmpty($result->items());
@@ -98,14 +98,14 @@ class BookSearchTest extends TestCase
         // Expected Eloquent query
         $query = Book::query();
         $query->orderBy('title', 'asc');
-        $firstItem = $query->first();
 
         // Apply filters through BookSearch class
         $request = new Request();
         $request->replace(['sort_title' => 'asc']);
         $result = BookSearch::getResults($request);
 
-        $this->assertEquals($firstItem, $result->first());
+        $firstPageElements = $query->take($result->perPage())->get()->all();
+        $this->assertEquals($firstPageElements, $result->items());
     }
 
     public function testBookSearchOrderByAuthor()
@@ -113,14 +113,14 @@ class BookSearchTest extends TestCase
         // Expected Eloquent query
         $query = Book::query();
         $query->orderBy('author', 'asc');
-        $firstItem = $query->first();
 
         // Apply filters through BookSearch class
         $request = new Request();
         $request->replace(['sort_author' => 'asc']);
         $result = BookSearch::getResults($request);
 
-        $this->assertEquals($firstItem, $result->first());
+        $firstPageElements = $query->take($result->perPage())->get()->all();
+        $this->assertEquals($firstPageElements, $result->items());
     }
 
 }

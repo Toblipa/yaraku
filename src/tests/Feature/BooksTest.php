@@ -78,8 +78,17 @@ class BooksTest extends TestCase
 
     public function testBooksExportXml()
     {
-        $response = $this->get(route('books.export.xml',  ['title' => 'dolor']));
+        $response = $this->get(route('books.export',  ['type' => 'xml']));
 
         $response->assertStatus(200);
+        $this->assertEquals('attachment; filename=books.xml', $response->headers->get('content-disposition'));
+    }
+
+    public function testBooksExportCsv()
+    {
+        $response = $this->get(route('books.export',  ['type' => 'csv']));
+
+        $response->assertStatus(200);
+        $this->assertEquals('attachment; filename=books.csv', $response->headers->get('content-disposition'));
     }
 }

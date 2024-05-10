@@ -2,32 +2,34 @@
 
 namespace App\Converters;
 
-use App\Converters\Converter;
 use Exception;
 
-class CsvConverter implements Converter
+class CsvConverter extends AbstractConverter
 {
+    private static $separator = ", ";
+
     /**
      * @inheritDoc
+     * @throws Exception
      */
-    public static function convert($items, array $columns = ['title', 'author']): string
+    public static function convert(array $items, array $columns = ['title', 'author']): string
     {
-        $csv = "";
-        // Add columns
-        $csv .= implode(", ", $columns)."\n";
-        // Add items to csv
+        // Initialize resource
+        $result = implode(self::$separator, $columns) . "\n";
+
         foreach ($items as $item) {
+            // Add row
             $csv_item = [];
             foreach ($columns as $column) {
-                if (!isset($item->{$column})) {
-                    throw new Exception('Property "' . $column . '" does not exist in object "' . get_class($item) . '".');
-                }
-                $csv_item[] = '"'.$item->{$column}.'"';
+                self::checkItemProperty($item, $column);
+                // Put into quotes to avoid problems in case the string has a comma
+                $csv_item[] = '"' . $item->{$column} . '"';
             }
-            $csv .= implode(', ', $csv_item) ."\n";
+            // Add item
+            $result .= implode(self::$separator, $csv_item) . "\n";
         }
 
-        return $csv;
+        return $result;
     }
 
     /**
@@ -37,7 +39,7 @@ class CsvConverter implements Converter
     {
         return [
             'Content-Type' => 'text/csv',
-            'Content-Disposition' => 'attachment; filename=books',
+            'Content-Disposition' => 'attachment; filename=books.csv',
         ];
     }
 }

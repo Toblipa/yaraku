@@ -5,7 +5,7 @@ namespace App\Converters;
 use Exception;
 use SimpleXMLElement;
 
-class XmlConverter implements Converter
+class XmlConverter extends AbstractConverter
 {
     /**
      * @inheritDoc
@@ -14,23 +14,22 @@ class XmlConverter implements Converter
      */
     public static function convert(array $items, array $columns = ['title', 'author']): string
     {
-        // Create xml file
-        $xml = new SimpleXMLElement("<xml/>");
-        $xml_books = $xml->addChild("books");
+        // Initialize resource
+        $result = new SimpleXMLElement("<xml/>");
+        // Add row
+        $xml_items = $result->addChild("books");
 
-        // Add items to xml
         foreach ($items as $item) {
             // Check if we are exporting only one property
-            $xml_book = count($columns) == 1 ? $xml_books : $xml_books->addChild("book");
+            $xml_item = count($columns) == 1 ? $xml_items : $xml_items->addChild("book");
             foreach ($columns as $column) {
-                if (!isset($item->{$column})) {
-                    throw new Exception('Property "' . $column . '" does not exist in object "' . get_class($item) . '".');
-                }
-                $xml_book->addChild($column, $item->{$column});
+                self::checkItemProperty($item, $column);
+                // Add item
+                $xml_item->addChild($column, $item->{$column});
             }
         }
 
-        return $xml->asXML();
+        return $result->asXML();
     }
 
     /**
@@ -42,7 +41,7 @@ class XmlConverter implements Converter
             'Content-Type' => 'application/xml',
             'Cache-Control' => 'public',
             'Content-Description' => 'File Transfer',
-            'Content-Disposition' => 'attachment; filename=books',
+            'Content-Disposition' => 'attachment; filename=books.xml',
             'Content-Transfer-Encoding' => 'binary'];
     }
 }

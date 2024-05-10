@@ -28,6 +28,7 @@
         <env name="DB_HOST" value="mysql-test"/>
         <env name="DB_PASSWORD" value="secret"/>
         <env name="DB_USERNAME" value="laravel"/>
+        <env name="SEEDER_LIMIT" value="50"/>
 
         <server name="APP_ENV" value="testing"/>
         <server name="BCRYPT_ROUNDS" value="4"/>

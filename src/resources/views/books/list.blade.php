@@ -4,12 +4,21 @@
     <!-- Export Button -->
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
         <div class="btn-group" role="group">
-            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                Export
+            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                @svg('solid/file-export') Export
             </button>
             <ul class="dropdown-menu">
-                <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exportModal" data-bs-export="csv">CSV</button></li>
-                <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exportModal" data-bs-export="xml">XML</button></li>
+                <li>
+                    <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exportModal"
+                            data-bs-export="csv"> CSV
+                    </button>
+                </li>
+                <li>
+                    <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exportModal"
+                            data-bs-export="xml"> XML
+                    </button>
+                </li>
             </ul>
         </div>
     </div>
@@ -21,33 +30,33 @@
     <table class="table table-hover">
         <!-- Table columns with sort -->
         <thead>
-            <tr>
-                <th scope="col">
-                    Title
-                    @if( request()->has('sort_title') && request()->get('sort_title') === "asc" )
-                        <a href="{{request()->fullUrlWithQuery(['sort_title' => 'desc', 'sort_author' => null])}}">
-                            @svg('solid/sort-up')
-                        </a>
-                    @else
-                        <a href="{{request()->fullUrlWithQuery(['sort_title' => 'asc', 'sort_author' => null])}}">
-                            @svg('solid/sort-down')
-                        </a>
-                    @endif
-                </th>
-                <th scope="col">
-                    Author
-                    @if( request()->has('sort_author') && request()->get('sort_author') === "asc" )
-                        <a href="{{request()->fullUrlWithQuery(['sort_author' => 'desc', 'sort_title' => null])}}">
-                            @svg('solid/sort-up')
-                        </a>
-                    @else
-                        <a href="{{request()->fullUrlWithQuery(['sort_author' => 'asc', 'sort_title' => null])}}">
-                            @svg('solid/sort-down')
-                        </a>
-                    @endif
-                </th>
-                <th scope="col"></th>
-            </tr>
+        <tr>
+            <th scope="col">
+                Title
+                @if( request()->has('sort_title') && request()->get('sort_title') === "asc" )
+                    <a href="{{request()->fullUrlWithQuery(['sort_title' => 'desc', 'sort_author' => null])}}">
+                        @svg('solid/sort-up')
+                    </a>
+                @else
+                    <a href="{{request()->fullUrlWithQuery(['sort_title' => 'asc', 'sort_author' => null])}}">
+                        @svg('solid/sort-down')
+                    </a>
+                @endif
+            </th>
+            <th scope="col">
+                Author
+                @if( request()->has('sort_author') && request()->get('sort_author') === "asc" )
+                    <a href="{{request()->fullUrlWithQuery(['sort_author' => 'desc', 'sort_title' => null])}}">
+                        @svg('solid/sort-up')
+                    </a>
+                @else
+                    <a href="{{request()->fullUrlWithQuery(['sort_author' => 'asc', 'sort_title' => null])}}">
+                        @svg('solid/sort-down')
+                    </a>
+                @endif
+            </th>
+            <th scope="col"></th>
+        </tr>
         </thead>
 
         <!-- Rows with books information -->
@@ -62,8 +71,10 @@
                 <td>{{ $book->title }}</td>
                 <td>
                     {{ $book->author }}
-                    <button type="button" class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#editModal"
-                            data-bs-id="{{$book->id}}" data-bs-author="{{$book->author}}" data-bs-title="{{$book->title}}">
+                    <button type="button" class="btn btn-light btn-sm" data-bs-toggle="modal"
+                            data-bs-target="#editModal"
+                            data-bs-id="{{$book->id}}" data-bs-author="{{$book->author}}"
+                            data-bs-title="{{$book->title}}">
                         @svg('solid/pen-to-square')
                     </button>
                 </td>
@@ -100,6 +111,6 @@
     @endif
 
     <!-- Modals -->
-    @include('books/edit-modal')
-    @include('books/export-modal')
+    @include('books.modals.edit-modal')
+    @include('books.modals.export-modal')
 </div>
